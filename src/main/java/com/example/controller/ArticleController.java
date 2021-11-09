@@ -17,7 +17,6 @@ import com.example.form.CommentForm;
 import com.example.repository.ArticleRepository;
 import com.example.repository.CommentRepository;
 
-
 @Controller
 @RequestMapping("/bbs")
 public class ArticleController {
@@ -57,17 +56,14 @@ public class ArticleController {
 	/**
 	 * 投稿された記事とコメントをbbsに反映する。
 	 */
-	 @RequestMapping("/Reflect")
-	 public String reflect(Integer articleId,Model model) {
-	 	List<Article> articleList = articleRepository.findAll();
-	 	model.addAttribute("articleList",articleList);
-	 	
-	 	for (Article article : articleList) {
-	 		List<Comment> commentList = commentRepository.findByArticleId(article.getId());
-	 		article.setCommentList(commentList);
-	 	}
-	 	return "bbs";
-	 }
+	@RequestMapping("/Reflect")
+	public String reflect(Integer articleId,Model model) {
+		List<Article> articleList = articleRepository.findAll();
+		List<Comment> commentList = commentRepository.findByArticleId(articleId);
+		model.addAttribute("articleList",articleList);
+		model.addAttribute("commentList",commentList);
+		return "bbs";
+	}
 	 
 	 /**
 	  * 記事を投稿する。
@@ -87,9 +83,6 @@ public class ArticleController {
 		 article.setContent(form.getContent());
 		 return "bbs";
 		}
-
-	 
-	 
 	
 	
 

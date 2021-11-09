@@ -30,9 +30,9 @@
 			<br>  
 		</form>
 		<form th:each="comment : ${commentList}">
-			コメント者名：<span th:if="${(article.id) eq (comment.article_id)}" th:text="${comment.name}">dummyCommentName</span><br>
+			コメント者名：<span th:text="${comment.name}">dummyCommentName</span><br>
 			コメント内容：<br> 
-			<span th:if="${article.id eq comment.article_id}" th:text="${comment.content}">dummyCommentContent</span><br>
+			<span th:text="${comment.content}">dummyCommentContent</span><br>
 			<br> 
 			
 			<!-- コメント投稿フォーム -->
