@@ -15,32 +15,35 @@
 	</form>
 
 	<hr>
+	
 
 	<!-- 投稿された記事&コメントを記事ごとに表示 -->
-	<form name="articleForm" th:each="article : ${articleList}" >
-		投稿者名：<span th:text="${article.name}">dummyName</span><br> 
-		投稿内容：<br>
-		<br> 
-		<span th:text="${article.content}">dummyContent</span><br>
-		<br>
-		<button>記事削除</button><br>
-		<br>  
-		
-		<span th:each="comment : ${commentList}">
-		コメント者名：<span th:text="${comment.name}">dummyCommentName</span><br>
-		コメント内容：<br> 
-			<span th:text="${comment.content}">dummyCommentContent</span><br>
+	<th:block th:each="article : ${articleList}">
+		<form>
+			<table></table>
+			投稿者名：<span th:text="${article.name}">dummyName</span><br> 
+			投稿内容：<br>
 			<br> 
+			<span th:text="${article.content}">dummyContent</span><br>
+			<br>
+			<button>記事削除</button><br>
+			<br>  
+		</form>
+		<form th:each="comment : ${commentList}">
+			コメント者名：<span th:if="${(article.id) eq (comment.article_id)}" th:text="${comment.name}">dummyCommentName</span><br>
+			コメント内容：<br> 
+			<span th:if="${article.id eq comment.article_id}" th:text="${comment.content}">dummyCommentContent</span><br>
+			<br> 
+			
 			<!-- コメント投稿フォーム -->
 			名前：<input type="text" name="commentName"><br>
 			コメント：<br>
 			<textarea name="comment" rows="4" cols="30"></textarea><br>
 			<br>
 			<button>コメント投稿</button>
-		
-		</span>
+		</form>
 		<hr>
-	</form>
+	</th:block>
 
 </body>
 </html>

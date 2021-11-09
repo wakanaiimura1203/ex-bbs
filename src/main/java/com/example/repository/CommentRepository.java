@@ -14,32 +14,31 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class CommentRepository {
-	
+
 	// SQLの実行処理をするために必要
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
 	/**
-	 * ラムダ式でローマッパーインターフェイスを実装。
-	 * リザルトセットから各要素を取得してcommentオブジェクト（ドメイン）にセット。
+	 * ラムダ式でローマッパーインターフェイスを実装。 リザルトセットから各要素を取得してcommentオブジェクト（ドメイン）にセット。
 	 * ※この時要素名データベースに合わせる。
 	 */
-	public static final RowMapper<Comment> COMMENT_ROW_MAPPER =
-			new BeanPropertyRowMapper<>(Comment.class);
-	
+	public static final RowMapper<Comment> COMMENT_ROW_MAPPER = new BeanPropertyRowMapper<>(Comment.class);
+
 	/**
-	 * 記事idから各記事に対するコメントを取得。
+	 * 記事idからコメントを取得。
 	 * findByArticleIdメソッドが呼ばれたときにcommentListを返す。
-	 * @param 記事id
-	 * @return 各記事idに対応するコメント
+	 * @param 取得したい記事id
+	 * @return 各idに対応するコメント
 	 * 
 	 */
-	public List<Comment> findByArticleId(Integer articleId){
-		String sql = "SELECT * FROM comments WHERE article_id=:article_id;";
+	public List<Comment> findByArticleId(int articleId){
+		String sql = "SELECT * FROM comments WHERE article_id=:article_id ORDER BY id DESC;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("article_id",articleId);
 		
 		List<Comment> commentList = template.query(sql,param,COMMENT_ROW_MAPPER);
 		return commentList;
 	}
+
 
 }
