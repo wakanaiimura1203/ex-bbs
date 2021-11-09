@@ -17,15 +17,19 @@
 	<hr>
 
 	<!-- 投稿された記事を表示 -->
-	投稿者名：
-	<br> 投稿内容：
+	<form th:each="article : ${articleList}">
+	投稿者名：<span th:text="${article.name}">dummyName</span><br> 
+	投稿内容：<br>
+	<br>
+	<span th:text="${article.content}">dummyContent</span><br>
 	<br>
 	<!-- 記事の中身をここに表示 -->
-	<button>記事削除</button>
+	<button>記事削除</button><br>
 	<br>
-	<br>
+	<hr>
+	</form>
 
-	<!-- コメントをここから下に表示 -->
+	<!-- コメントをここから下に表示 
 	コメント者名： コメント内容：
 
 	<p>山田さん書き込みのコメント１</p>
@@ -38,7 +42,7 @@
 	<button>コメント投稿</button>
 
 	<hr>
-
+	                               -->
 
 </body>
 </html>
