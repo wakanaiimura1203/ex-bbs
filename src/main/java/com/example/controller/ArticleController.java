@@ -112,16 +112,13 @@ public class ArticleController {
 	 }
 	 
 	 /**
-	  * 記事とコメントを削除する。作成途中
+	  * 記事とコメントを削除する。
 	  * 
-	  *
+	  */
 	 @RequestMapping("/delete")
 	 public String deleteArticle(Integer id) {
-		 articleRepository.delete(id);
+		 articleRepository.deleteById(id);
 		 commentRepository.deleteByArticleId(id);
-
-			return "redirect:/separatedbbs";
-		 
+		 return "redirect:/bbs";
 	 }
-	*/
 }
