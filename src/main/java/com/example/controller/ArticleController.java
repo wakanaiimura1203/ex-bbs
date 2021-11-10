@@ -2,8 +2,6 @@ package com.example.controller;
 
 import java.util.List;
 
-import javax.xml.stream.events.Comment;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +10,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Article;
+import com.example.domain.Comment;
 import com.example.form.ArticleForm;
 import com.example.form.CommentForm;
 import com.example.repository.ArticleRepository;
 import com.example.repository.CommentRepository;
+
 
 @Controller
 @RequestMapping("/bbs")
@@ -42,29 +42,41 @@ public class ArticleController {
 
 	@Autowired
 	private CommentRepository commentRepository;
+	
 
 	/**
 	 * トップページを表示するメソッド
+	 * 投稿された記事とコメントが反映される。
 	 *
-	 */
 	@RequestMapping("")
-	public String index() {
-		return "bbs";
-	}
-	
-	
-	/**
-	 * 投稿された記事とコメントをbbsに反映する。
-	 */
-	@RequestMapping("/Reflect")
-	public String reflect(Integer articleId,Model model) {
+	public String index(Integer articleId,Model model) {
 		List<Article> articleList = articleRepository.findAll();
 		List<Comment> commentList = commentRepository.findByArticleId(articleId);
+		// System.out.println(articleId);
 		model.addAttribute("articleList",articleList);
 		model.addAttribute("commentList",commentList);
 		return "bbs";
 	}
-	 
+	*/
+	
+	/**
+	 * トップページを表示するメソッド
+	 * 投稿された記事とコメントが反映される。
+	 */
+	@RequestMapping("")
+	public String index(Model model) {
+		List<Article> articleList = articleRepository.findAll();
+		
+		for (Article article : articleList) {
+			List<Comment> commentList = commentRepository.findByArticleId(article.getId());
+			article.setCommentList(commentList);
+		}
+		model.addAttribute("articleList",articleList);
+
+		return "bbs";
+	}
+
+	
 	 /**
 	  * 記事を投稿する。
 	  * リクエストパラメータをformで受け取り、ドメインにコピー
@@ -76,7 +88,7 @@ public class ArticleController {
 		 //ドメインをオブジェクト化
 		 Article article = new Article();
 		 
-		// フォームからドメインにプロパティ値をコピー
+		// フォームからドメインにプロパティ値をコピー？
 		// BeanUtils.copyProperties(articleForm, article);
 		
 		 article.setName(form.getName());

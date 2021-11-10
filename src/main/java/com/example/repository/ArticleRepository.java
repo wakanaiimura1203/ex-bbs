@@ -29,15 +29,7 @@ public class ArticleRepository {
 	public static final RowMapper<Article> ARTICLE_ROW_MAPPER =
 			new BeanPropertyRowMapper<>(Article.class);
 	
-	/**
-	 * 入力された投稿内容をデータベースに入れる。
-	 * 
-	 */
-	public void insert(Article article) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(article);
-		String insertSql = "INSERT INTO articles(name,content) VALUES(:name,:content);";
-		template.update(insertSql, param);
-	}
+
 	
 	/**
 	 * データベースから記事を全件取得。
@@ -52,6 +44,18 @@ public class ArticleRepository {
 		
 		return articleList;
 	} 
+	
+	/**
+	 * 入力された投稿内容をデータベースに入れる。
+	 * 
+	 */
+	public void insert(Article article) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(article);
+		String insertSql = "INSERT INTO articles(name,content) VALUES(:name,:content);";
+		template.update(insertSql, param);
+	}
+	
+	
 	
 	
 

@@ -5,22 +5,18 @@
 <title>3ちゃんねる</title>
 </head>
 <body>
+
+	<!-- 投稿画面 -->
 	<form action="bbs.html" th:action="@{/bbs/post}" method="post">
-		<!-- 投稿画面 -->
-		投稿者名： <input type="text" name="name"> <br> 投稿内容：
-		<textarea name="article" rows="4" cols="30"></textarea>
-		<br>
-		<button>記事投稿</button>
-		<br>
+	投稿者名： <input type="text" name="name"> <br> 
+	投稿内容：<textarea name="articleContents" rows="4" cols="30"></textarea><br>
+		<button>記事投稿</button><br>
 	</form>
+		<hr>
 
-	<hr>
-	
-
-	<!-- 投稿された記事&コメントを記事ごとに表示 -->
+	<!-- 投稿された記事&コメントを記事idごとに表示 -->
 	<th:block th:each="article : ${articleList}">
 		<form>
-			<table></table>
 			投稿者名：<span th:text="${article.name}">dummyName</span><br> 
 			投稿内容：<br>
 			<br> 
@@ -29,11 +25,13 @@
 			<button>記事削除</button><br>
 			<br>  
 		</form>
-		<form th:each="comment : ${commentList}">
+		
+		<!-- コメントを表示する。 articleListの中に入ってるcommentListをさらに回す-->
+		<form th:each="comment : ${article.commentList}">
 			コメント者名：<span th:text="${comment.name}">dummyCommentName</span><br>
 			コメント内容：<br> 
 			<span th:text="${comment.content}">dummyCommentContent</span><br>
-			<br> 
+			<br>
 			
 			<!-- コメント投稿フォーム -->
 			名前：<input type="text" name="commentName"><br>
