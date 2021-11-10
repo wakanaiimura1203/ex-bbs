@@ -55,5 +55,14 @@ public class ArticleRepository {
 		template.update(insertSql, param);
 	}
 	
+	/**
+	 * 記事を削除する。作成途中
+	 * 
+	 * 
+	 *
+	public deleteById() {
+		
+	}
+	*/
 
 }

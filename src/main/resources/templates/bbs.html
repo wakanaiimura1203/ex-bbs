@@ -18,7 +18,7 @@
 
 	<!-- 投稿された記事&コメントを記事idごとに表示 -->
 	<th:block th:each="article : ${articleList}">
-		<form>
+		<form th:action="@{/bbs/delete}" method="post">
 			投稿者名：<span th:text="${article.name}">dummyName</span><br> 
 			投稿内容：<br>
 			<br> 
@@ -38,6 +38,7 @@
 		
 		<!-- コメント投稿フォーム -->
 		<form action="bbs.html" th:action="@{/bbs/post-comment}" method="post">
+		<input type="hidden" name="articleId" th:value="${article.id}">
 			名前：<input type="text" name="name"><br>
 			コメント：<br>
 			<textarea name="content" rows="4" cols="30"></textarea><br>

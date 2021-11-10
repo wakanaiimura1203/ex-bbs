@@ -2,7 +2,6 @@ package com.example.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,19 +97,31 @@ public class ArticleController {
 	  * viewで入力し投稿された記事内容をデータベースに格納する。（更新）
 	  */
 	 @RequestMapping("/post-comment")
-	 public String insertComment(CommentForm form) {
+	 public String insertComment(CommentForm form,Integer articleId) {
+		 System.out.println("qwertyuiop");
+		 System.out.println(articleId);
 		 // commentドメインをオブジェクト化
 		 Comment comment = new Comment();
 		 
+		 // BeanUtils.copyProperties(commentForm, comment);でも同じ処理が行われる
 		 comment.setName(form.getName());
 		 comment.setContent(form.getContent());
-		 
+		 comment.setArticleId(articleId);
 		 commentRepository.insert(comment);
-		 
 		 return "redirect:/bbs";
+	 }
+	 
+	 /**
+	  * 記事とコメントを削除する。作成途中
+	  * 
+	  *
+	 @RequestMapping("/delete")
+	 public String deleteArticle(Integer id) {
+		 articleRepository.delete(id);
+		 commentRepository.deleteByArticleId(id);
+
+			return "redirect:/separatedbbs";
 		 
 	 }
-	
-	
-
+	*/
 }
