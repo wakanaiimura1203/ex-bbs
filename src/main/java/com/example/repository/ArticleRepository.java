@@ -28,7 +28,6 @@ public class ArticleRepository {
 	 */
 	public static final RowMapper<Article> ARTICLE_ROW_MAPPER =
 			new BeanPropertyRowMapper<>(Article.class);
-	
 
 	
 	/**
@@ -46,7 +45,8 @@ public class ArticleRepository {
 	} 
 	
 	/**
-	 * 入力された投稿内容をデータベースに入れる。
+	 * 入力された投稿内容をデータベースに格納。
+	 * 格納する値は未定の為:name,:contentにする。
 	 * 
 	 */
 	public void insert(Article article) {
@@ -54,9 +54,6 @@ public class ArticleRepository {
 		String insertSql = "INSERT INTO articles(name,content) VALUES(:name,:content);";
 		template.update(insertSql, param);
 	}
-	
-	
-	
 	
 
 }

@@ -22,7 +22,9 @@ import com.example.repository.CommentRepository;
 public class ArticleController {
 
 	/**
-	 * 各フォームクラスを使う為の設定。
+	 * 各フォームクラスをrequestスコープに格納
+	 * @return フォームオブジェクトがrequestスコープに格納される
+	 * 
 	 */
 	@ModelAttribute
 	public ArticleForm setUpForm() {
@@ -42,22 +44,6 @@ public class ArticleController {
 
 	@Autowired
 	private CommentRepository commentRepository;
-	
-
-	/**
-	 * トップページを表示するメソッド
-	 * 投稿された記事とコメントが反映される。
-	 *
-	@RequestMapping("")
-	public String index(Integer articleId,Model model) {
-		List<Article> articleList = articleRepository.findAll();
-		List<Comment> commentList = commentRepository.findByArticleId(articleId);
-		// System.out.println(articleId);
-		model.addAttribute("articleList",articleList);
-		model.addAttribute("commentList",commentList);
-		return "bbs";
-	}
-	*/
 	
 	/**
 	 * トップページを表示するメソッド
@@ -79,22 +65,51 @@ public class ArticleController {
 	
 	 /**
 	  * 記事を投稿する。
-	  * リクエストパラメータをformで受け取り、ドメインにコピー
-	  * @param form 記事内容用フォーム
+	  * 
+	  * リクエストパラメータを受け取り、リポジトリ―メソッドを呼び出し、値をリポにわたす
+	  * ドメインにコピー
+	  * @param nameとcontent
 	  * viewで入力し投稿された記事内容をデータベースに格納する。（更新）
+	  * 
 	  */
 	 @RequestMapping("/post")
-	 public String insertArticle(ArticleForm form,Model model) {
+	 public String insertArticle(ArticleForm form) {
 		 //ドメインをオブジェクト化
 		 Article article = new Article();
 		 
-		// フォームからドメインにプロパティ値をコピー？
+		// フォームからドメインに値をコピー
+		// ↓教科書に書いてあったやつ。処理は８４，８５行目と同じらしい
 		// BeanUtils.copyProperties(articleForm, article);
 		
 		 article.setName(form.getName());
 		 article.setContent(form.getContent());
-		 return "bbs";
+		 
+		 articleRepository.insert(article);
+		 
+		 return "redirect:/bbs";
 		}
+	 
+	 /**
+	  * コメントを投稿する。
+	  * 
+	  * リクエストパラメータを受け取り、リポジトリ―にわたす
+	  * ドメインにコピー
+	  * @param nameとcontent
+	  * viewで入力し投稿された記事内容をデータベースに格納する。（更新）
+	  */
+	 @RequestMapping("/post-comment")
+	 public String insertComment(CommentForm form) {
+		 // commentドメインをオブジェクト化
+		 Comment comment = new Comment();
+		 
+		 comment.setName(form.getName());
+		 comment.setContent(form.getContent());
+		 
+		 commentRepository.insert(comment);
+		 
+		 return "redirect:/bbs";
+		 
+	 }
 	
 	
 

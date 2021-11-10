@@ -2,10 +2,10 @@ package com.example.repository;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -39,6 +39,17 @@ public class CommentRepository {
 		
 		List<Comment> commentList = template.query(sql,param,COMMENT_ROW_MAPPER);
 		return commentList;
+	}
+	
+	/**
+	 * 受け取ったコメント内容をデータベースに格納する。
+	 * @param name,content
+	 */
+	
+	public void insert(Comment comment) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(comment);
+		String insertSql = "INSERT INTO comments(name,content,article_id) VALUES(:name,:content,:article_id);";
+		template.update(insertSql,param);
 	}
 
 
